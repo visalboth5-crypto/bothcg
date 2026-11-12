@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101116" />
+  <title>BOTHCG</title>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+    :root {
+      color-scheme: dark;
+      --background: #101116;
+      --panel: rgba(25, 27, 36, 0.88);
+      --text: #f5f5f7;
+      --muted: #9a9ba8;
+      --accent: #a78bfa;
+      --accent-bright: #c4b5fd;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 32px 18px;
+      overflow-x: hidden;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(124, 58, 237, 0.2), transparent 34%),
+        radial-gradient(ellipse at 90% 85%, rgba(59, 130, 246, 0.13), transparent 35%),
+        var(--background);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+      background-size: 32px 32px;
+      content: "";
+      opacity: 0.2;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+
+    .layout {
+      width: min(100%, 980px);
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      align-items: center;
+      gap: 72px;
+    }
+
+    .intro {
+      padding: 20px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 48px;
+      color: var(--text);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      background: linear-gradient(145deg, #a78bfa, #6d5bd0);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+      color: #fff;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent-bright);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1, h2, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 430px;
+      margin-bottom: 18px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(42px, 6vw, 64px);
+      line-height: 1.03;
+      letter-spacing: -3px;
+    }
+
+    .intro-copy {
+      max-width: 390px;
+      margin-bottom: 32px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #c5c6d0;
+      font-size: 13px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #6ee7b7;
+      box-shadow: 0 0 12px rgba(110, 231, 183, 0.65);
+    }
+
+    .card {
+      padding: 38px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--panel);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(18px);
+    }
+
+    .card h2 {
+      margin-bottom: 8px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 28px;
+      letter-spacing: -1px;
+    }
+
+    .card-subtitle {
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: #dedee5;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      height: 50px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+      background: rgba(9, 10, 14, 0.55);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    input::placeholder {
+      color: #686a77;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+    }
+
+    .password-input {
+      padding-right: 68px;
+    }
+
+    .show-password {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      padding: 5px;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: var(--accent-bright);
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 2px 0 22px;
+      font-size: 12px;
+    }
+
+    .remember {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .remember input {
+      width: 15px;
+      height: 15px;
+      margin: 0;
+      accent-color: var(--accent);
+    }
+
+    a {
+      color: var(--accent-bright);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .submit-button {
+      width: 100%;
+      min-height: 50px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(100deg, #a78bfa, #8065e9);
+      box-shadow: 0 10px 24px rgba(124, 58, 237, 0.25);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform 160ms ease, filter 160ms ease;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    .submit-button:active {
+      transform: translateY(0);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 22px 0;
+      color: #747582;
+      font-size: 11px;
+    }
+
+    .divider::before,
+    .divider::after {
+      height: 1px;
+      flex: 1;
+      background: var(--border);
+      content: "";
+    }
+
+    .help-link {
+      display: block;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      color: #d3d3dc;
+      font-size: 13px;
+      text-align: center;
+      transition: background 160ms ease;
+    }
+
+    .help-link:hover {
+      background: rgba(255, 255, 255, 0.05);
+      text-decoration: none;
+    }
+
+    .signup {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .message {
+      min-height: 18px;
+      margin: 12px 0 0;
+      color: #c4b5fd;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .help-panel {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(9, 10, 14, 0.55);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .help-panel.is-open {
+      display: block;
+    }
+
+    .help-panel strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 760px) {
+      .layout {
+        max-width: 460px;
+        grid-template-columns: 1fr;
+        gap: 26px;
+      }
+
+      .intro {
+        padding: 0;
+      }
+
+      .brand {
+        margin-bottom: 26px;
+      }
+
+      .intro-copy {
+        margin-bottom: 16px;
+      }
+
+      .card {
+        padding: 28px 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="layout">
+    <section class="intro" aria-labelledby="welcome-title">
+      <a class="brand" href="#" aria-label="Orbit home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        BOTH CG
+      </a>
+
+      <p class="eyebrow">Your space to create</p>
+      <h1 id="welcome-title">DO YOU WANNA SMOKE CUZ.</h1>
+      <p class="intro-copy">
+        Sign in to pick up where you left off and keep all your projects moving.
+      </p>
+      <div class="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        Everything is running smoothly
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="login-title">
+      <h2 id="login-title">Welcome back</h2>
+      <p class="card-subtitle">Enter your details to sign in to BOTHCG.</p>
+
+      <form id="login-form">
+        <div class="field">
+          <label for="email">Email address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input
+              class="password-input"
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+            <button class="show-password" id="toggle-password" type="button">
+              Show
+            </button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="remember">
+            <input type="checkbox" name="remember" />
+            Remember me
+          </label>
+          <a href="mailto:support@example.com?subject=Password%20reset">Forgot password?</a>
+        </div>
+
+        <button class="submit-button" type="submit">Sign in</button>
+        <p class="message" id="form-message" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="divider">OR</div>
+
+      <a class="help-link" href="#help" id="help-link">Need help signing in?</a>
+      <div class="help-panel" id="help-panel">
+        <strong>We’re here to help.</strong><br />
+        Check that your email and password are correct. If you’re still stuck,
+        email <a href="mailto:support@example.com">support@example.com</a>.
+      </div>
+
+      <p class="signup">New to Orbit? <a href="mailto:support@example.com?subject=Create%20an%20account">Create an account</a></p>
+    </section>
+  </main>
+
+  <script>
+    const passwordInput = document.querySelector("#password");
+    const togglePassword = document.querySelector("#toggle-password");
+    const loginForm = document.querySelector("#login-form");
+    const formMessage = document.querySelector("#form-message");
+    const helpLink = document.querySelector("#help-link");
+    const helpPanel = document.querySelector("#help-panel");
+
+    togglePassword.addEventListener("click", () => {
+      const isHidden = passwordInput.type === "password";
+      passwordInput.type = isHidden ? "text" : "password";
+      togglePassword.textContent = isHidden ? "Hide" : "Show";
+      togglePassword.setAttribute(
+        "aria-label",
+        isHidden ? "Hide password" : "Show password"
+      );
+    });
+
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      formMessage.textContent =
+        "Demo only — connect this form to your authentication service.";
+    });
+
+    helpLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      const isOpen = helpPanel.classList.toggle("is-open");
+      helpLink.setAttribute("aria-expanded", String(isOpen));
+    });
+  </script>
+</body>
+</html>
